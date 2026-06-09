@@ -1,6 +1,7 @@
 class Solution {
 public:
-    int solve(vector<int>& nums, int i, int currSum, int target, unordered_map<string, int>& mp){
+    int S;
+    int solve(vector<int>& nums, int i, int currSum, int target, vector<vector<int>>& dp){
         if(i == nums.size()){
             if(currSum == target){
                 return 1;
@@ -8,20 +9,21 @@ public:
                 return 0;
             }
         }
-        string key = to_string(i) + "_" + to_string(currSum);
-
-        if(mp.count(key)){
-            return mp[key];
+        
+        if(dp[i][currSum + S] != -1){
+            return dp[i][currSum + S];
         }
 
-        int plus = solve(nums, i + 1, currSum + nums[i], target, mp);
-        int minus = solve(nums, i + 1, currSum - nums[i], target, mp);
+        int plus = solve(nums, i + 1, currSum + nums[i], target, dp);
+        int minus = solve(nums, i + 1, currSum - nums[i], target, dp);
 
-        return mp[key] = plus + minus;
+        return dp[i][currSum + S] = plus + minus;
     }
 
     int findTargetSumWays(vector<int>& nums, int target) {
-        unordered_map<string, int> mp;
-        return solve(nums, 0, 0, target, mp);
+        int n= nums.size();
+        S = accumulate(nums.begin(), nums.end(), 0);
+        vector<vector<int>> dp(n+1, vector<int>(2*S+1, -1));
+        return solve(nums, 0, 0, target, dp);
     }
 };
