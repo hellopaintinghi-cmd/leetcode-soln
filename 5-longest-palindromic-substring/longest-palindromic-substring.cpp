@@ -1,25 +1,18 @@
 class Solution {
 public:
-    bool isPalindrome(string& s, int l, int r){
-        while(l < r){
-            if(s[l] != s[r]){
-                return false;
-            }
-            l++;
-            r--;
-        }
-        return true;
-    }
     string longestPalindrome(string s) {
         int n = s.size();
+        vector<vector<bool>> dp(n, vector<bool>(n, false));
+
         int start = 0;
         int maxi = 1;
 
-        for(int i=0;i<n;i++){
-            for(int j=i;j<n;j++){
-                if(isPalindrome(s, i, j)){
+        for (int i = n - 1; i >= 0; i--) {
+            for (int j = i; j < n; j++) {
+                if (s[i] == s[j] && (j - i <= 2 || dp[i + 1][j - 1])) {
+                    dp[i][j] = true;
                     int len = j - i + 1;
-                    if(len > maxi){
+                    if (len > maxi) {
                         maxi = len;
                         start = i;
                     }
