@@ -1,0 +1,35 @@
+class Solution {
+public:
+    long long MOD = 1e9 + 7;
+    int subsequencePairCount(vector<int>& nums) {
+        int maxi = *max_element(nums.begin(), nums.end());
+
+        vector<vector<long long>> dp(maxi + 1, vector<long long>(maxi + 1, 0)); //the gcd can never be greater than the largest element and we would be checking for each value upto the largest element
+        dp[0][0] = 1;
+
+        for (int x : nums) {
+            vector<vector<long long>> ndp = dp;
+            for (int g1 = 0; g1 < maxi + 1; g1++) {
+                for (int g2 = 0; g2 < maxi + 1; g2++) {
+                    if (dp[g1][g2] == 0) {
+                        continue;
+                    }
+                    //x in 1st subsequence
+                    int ng1 = (g1 == 0) ? x : gcd(g1, x);
+                    ndp[ng1][g2] = (ndp[ng1][g2] + dp[g1][g2]) % MOD;
+
+                    //x in 2nd subsequence
+                    int ng2 = (g2 == 0) ? x : gcd(g2, x);
+                    ndp[g1][ng2] = (ndp[g1][ng2] + dp[g1][g2]) % MOD;
+                }
+            }
+            dp = ndp;
+        }
+        long long ans = 0;
+        for (int g = 1; g <= maxi; g++) {
+            ans = (ans + dp[g][g]) % MOD;
+        }
+
+        return ans;
+    }
+};
