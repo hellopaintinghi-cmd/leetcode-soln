@@ -44,6 +44,6 @@ public:
                 return component - 1;
             }
         }
-        return -1;
+        return 0;
     }
 };
