@@ -14,7 +14,7 @@ public:
             int k = q[2];
 
             int mask = pref[r + 1] ^ pref[l];
-            int oddcnt = __builtin_popcount(mask);
+            int oddcnt = __builtin_popcount(mask); //counts the number of 1s
 
             ans.push_back(oddcnt/2 <= k);
         }
