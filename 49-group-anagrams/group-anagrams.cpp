@@ -7,10 +7,12 @@ public:
             sort(key.begin(), key.end());
             mp[key].push_back(s);
         }
+
         vector<vector<string>> ans;
-        for(auto s : mp){
-            ans.push_back(s.second);
+        for(auto &p : mp){
+            ans.push_back(p.second);
         }
+        
         return ans;
     }
 };
