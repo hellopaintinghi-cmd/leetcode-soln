@@ -1,13 +1,13 @@
 class Solution {
 public:
     bool isAnagram(string s, string t) {
-        vector<int> mps(26, 0);
-        vector<int> mpt(26, 0);
+        unordered_map<char, int> mps;
+        unordered_map<char, int> mpt;
         for(char ch : s){
-            mps[ch - 'a']++;
+            mps[ch]++;
         }
         for(char ch : t){
-            mpt[ch - 'a']++;
+            mpt[ch]++;
         }
         return mps == mpt;
     }
